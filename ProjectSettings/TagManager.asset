@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Drum-chan
+    uniqueID: 4138313013
+    locked: 0
+  - name: Drumsticks
+    uniqueID: 2709612817
+    locked: 0
