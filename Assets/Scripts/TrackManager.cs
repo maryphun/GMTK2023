@@ -4,6 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 
+public enum NoteType
+{
+    Blue,
+    Red
+};
+
 public class TrackManager : MonoBehaviour
 {
     [SerializeField] Sprite rednote;
@@ -16,12 +22,6 @@ public class TrackManager : MonoBehaviour
     [SerializeField] Transform startPosition;
     [SerializeField] Transform endPosition;
     [SerializeField] private DrumsticksController drumsticks;
-
-    public enum NoteType
-    {
-        Blue,
-        Red
-    };
 
     [System.Serializable]
     public struct Note
@@ -65,7 +65,6 @@ public class TrackManager : MonoBehaviour
 
     private void SpawnNote(Note detail)
     {
-        Debug.Log("SpawnObject");
         GameObject objToSpawn;
         //spawn object
         objToSpawn = new GameObject("note [" + detail.beatTiming.ToString() + "]");
@@ -81,6 +80,6 @@ public class TrackManager : MonoBehaviour
         objTransform.SetParent(this.transform);
 
         var noteObjScript = objToSpawn.AddComponent<NoteObject>();
-        noteObjScript.Initialize(detail.travelTime, drumsticks, startPosition.localPosition, endPosition.localPosition, objTransform);
+        noteObjScript.Initialize(detail.travelTime, drumsticks, startPosition.localPosition, endPosition.localPosition, objTransform, detail.noteType);
     }
 }

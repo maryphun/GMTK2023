@@ -6,43 +6,46 @@ using DG.Tweening;
 public class DrumsticksController : MonoBehaviour
 {
     [Header("Setting")]
+    [SerializeField] private float hitAnimTime = 0.5f;
     [SerializeField] private float animationTime;
 
     [Header("References")]
     [SerializeField] private Transform drumstickLeft;
     [SerializeField] private Transform drumstickRight;
+    [SerializeField] private CharacterControl drumCtrl;
 
     [Header("Debug")]
     [SerializeField] private bool isLeftStickInAnim = false;
     [SerializeField] private bool isRightStickInAnim = false;
+    [SerializeField] private int combo = 0;
+    [SerializeField] private bool isEnabled = false;
+
+    private Vector3 drumstickOriginPosLeft, drumstickOriginPosRight;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        isEnabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InitializeDrumStick()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (!isLeftStickInAnim)
-            {
-                HitDrumLeft();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (!isRightStickInAnim)
-            {
-                HitDrumRight();
-            }
-        }
+        combo = 0;
+        drumstickOriginPosLeft = drumstickLeft.localPosition;
+        drumstickOriginPosRight = drumstickRight.localPosition;
+        isEnabled = true;
     }
 
-    public void HitDrum()
+    public void MoveDrumSticks(Vector3 offset, float time)
+    {
+        if (!isEnabled) return;
+
+        drumstickLeft.DOLocalMove(drumstickOriginPosLeft + offset, time);
+        drumstickRight.DOLocalMove(drumstickOriginPosRight + offset, time);
+    }
+
+    public void HitDrum(NoteObject note)
     {
         if (isLeftStickInAnim && isRightStickInAnim)
         {
@@ -51,11 +54,11 @@ public class DrumsticksController : MonoBehaviour
         }
         if (isLeftStickInAnim)
         {
-            HitDrumRight();
+            HitDrumRight(note);
         }
         else if (isRightStickInAnim)
         {
-            HitDrumLeft();
+            HitDrumLeft(note);
         }
         else
         {
@@ -63,54 +66,71 @@ public class DrumsticksController : MonoBehaviour
             // so random a hand
             if (Random.Range(0, 2) == 0)
             {
-                HitDrumRight();
+                HitDrumRight(note);
             }
             else
             {
-                HitDrumLeft();
+                HitDrumLeft(note);
             }
         }
     }
 
-    public void HitDrumLeft()
+    public void HitDrumLeft(NoteObject note)
     {
-        StartCoroutine(DrumLeftAnimation());
+        StartCoroutine(DrumLeftAnimation(note));
     }
-    public void HitDrumRight()
+    public void HitDrumRight(NoteObject note)
     {
-        StartCoroutine(DrumRightAnimation());
+        StartCoroutine(DrumRightAnimation(note));
     }
 
-    IEnumerator DrumLeftAnimation()
+    IEnumerator DrumLeftAnimation(NoteObject note)
     {
         isLeftStickInAnim = true;
 
-        Vector2 originalPos = drumstickLeft.localPosition;
-        drumstickLeft.DOLocalMove(new Vector3(originalPos.x + 2.0f, originalPos.y - 2f), animationTime / 2.0f);
-        drumstickLeft.DORotate(new Vector3(0.0f, 0.0f, -24.0f), animationTime / 2.0f);
+        drumstickLeft.GetComponent<Animator>().SetTrigger("Hit");
 
-        yield return new WaitForSeconds(animationTime/2.0f);
+        AudioManager.Instance.PlaySFX("don", 0.1f);
 
-        drumstickLeft.DOLocalMove(originalPos, animationTime / 2.0f);
-        drumstickLeft.DORotate(new Vector3(0.0f, 0.0f, 0.0f), animationTime / 2.0f);
+        yield return new WaitForSeconds(hitAnimTime);
 
-        yield return new WaitForSeconds(animationTime / 2.0f);
+        if (CheckIsDrumHit(note.GetNoteType()))
+        {
+            AddCombo();
+            note.Success();
+        }
+        else
+        {
+            ResetCombo();
+            note.Miss();
+        }
+
+        yield return new WaitForSeconds(animationTime - hitAnimTime);
+
         isLeftStickInAnim = false;
     }
-    IEnumerator DrumRightAnimation()
+    IEnumerator DrumRightAnimation(NoteObject note)
     {
         isRightStickInAnim = true;
 
-        Vector2 originalPos = drumstickRight.localPosition;
-        drumstickRight.DOLocalMove(new Vector3(originalPos.x - 2.0f, originalPos.y - 2f), animationTime / 2.0f);
-        drumstickRight.DORotate(new Vector3(0.0f, 0.0f, 24.0f), animationTime / 2.0f);
+        drumstickRight.GetComponent<Animator>().SetTrigger("Hit");
 
-        yield return new WaitForSeconds(animationTime/2.0f);
+        AudioManager.Instance.PlaySFX("don", 0.1f);
 
-        drumstickRight.DOLocalMove(originalPos, animationTime / 2.0f);
-        drumstickRight.DORotate(new Vector3(0.0f, 0.0f, 0.0f), animationTime / 2.0f);
+        yield return new WaitForSeconds(hitAnimTime);
 
-        yield return new WaitForSeconds(animationTime / 2.0f);
+        if (CheckIsDrumHit(note.GetNoteType()))
+        {
+            AddCombo();
+            note.Success();
+        }
+        else
+        {
+            ResetCombo();
+            note.Miss();
+        }
+
+        yield return new WaitForSeconds(animationTime - hitAnimTime);
 
         isRightStickInAnim = false;
     }
@@ -118,5 +138,20 @@ public class DrumsticksController : MonoBehaviour
     public float GetDrumAnimationTime()
     {
         return animationTime;
+    }
+
+    private bool CheckIsDrumHit(NoteType noteType)
+    {
+        return (noteType == NoteType.Blue && (drumCtrl.GetDrumStatus() == Status.Left || drumCtrl.GetDrumStatus() == Status.Right))
+             || (noteType == NoteType.Red && drumCtrl.GetDrumStatus() == Status.Middle);
+    }
+
+    private void AddCombo()
+    {
+        combo++;
+    }
+    private void ResetCombo()
+    {
+        combo = 0;
     }
 }

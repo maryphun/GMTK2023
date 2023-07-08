@@ -1,6 +1,8 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TreeEditor.TreeEditorHelper;
 
 public class NoteObject : MonoBehaviour
 {
@@ -9,11 +11,14 @@ public class NoteObject : MonoBehaviour
     [SerializeField] float totalTravelTime = 0.0f;
 
     private DrumsticksController drumsticks;
-    private Vector3 startingPosition, targetPosition;
+    [SerializeField] private Vector3 startingPosition, targetPosition;
     private Transform thisTransform;
     private bool orderedDrumHit = false;
+    private bool noteMissed = false;
+    private bool objDestroyed = false;
+    private NoteType noteType;
 
-    public void Initialize(float travelTime, DrumsticksController drumstick, Vector3 startingPos, Vector3 targetPos, Transform transfrm)
+    public void Initialize(float travelTime, DrumsticksController drumstick, Vector3 startingPos, Vector3 targetPos, Transform transfrm, NoteType noteTyp)
     {
         thisTransform = transfrm;
 
@@ -22,6 +27,7 @@ public class NoteObject : MonoBehaviour
         drumsticks = drumstick;
         startingPosition = startingPos;
         targetPosition = targetPos;
+        noteType = noteTyp;
 
         thisTransform.localPosition = startingPosition;
 
@@ -33,21 +39,58 @@ public class NoteObject : MonoBehaviour
         if (!initialized) return;
 
 
-        travelTimeLeft = Mathf.Clamp(travelTimeLeft-Time.fixedDeltaTime, 0.0f, totalTravelTime);
-        if (!orderedDrumHit && travelTimeLeft <= drumsticks.GetDrumAnimationTime() / 2.0f)
+        travelTimeLeft = Mathf.Max(travelTimeLeft-Time.fixedDeltaTime, 0.0f);
+        if (!orderedDrumHit && travelTimeLeft <= drumsticks.GetDrumAnimationTime())
         {
             orderedDrumHit = true;
-            drumsticks.HitDrum();
+            drumsticks.HitDrum(this);
         }
-        if (travelTimeLeft <= 0.0f)
+        if (travelTimeLeft <= 0.0f || noteMissed)
         {
-            thisTransform.localPosition = targetPosition;
-            Destroy(gameObject);
+            if (noteMissed)
+            {
+                Vector3 newPos = Vector3.Lerp(targetPosition, startingPosition, travelTimeLeft / totalTravelTime);
+                thisTransform.localPosition = newPos;
+            }
+            if (!objDestroyed)
+            {
+                thisTransform.localPosition = targetPosition;
+                objDestroyed = true;
+            }
         }
         else
         {
             Vector3 newPos = Vector3.Lerp(targetPosition, startingPosition, travelTimeLeft / totalTravelTime);
             thisTransform.localPosition = newPos;
         }
+    }
+
+    public NoteType GetNoteType()
+    {
+        return noteType;
+    }
+
+    public void Success()
+    {
+        GetComponent<SpriteRenderer>().DOFade(0.0f, 0.4f);
+        thisTransform.DOScale(1.5f, 0.4f);
+
+        Destroy(gameObject, 0.5f);
+    }
+
+    public void Miss()
+    {
+        noteMissed = true;
+        var newPos = new Vector3(targetPosition.x - Mathf.Abs(startingPosition.x - targetPosition.x), targetPosition.y);
+
+        startingPosition = targetPosition;
+        targetPosition = newPos;
+
+        // reset time 
+        travelTimeLeft = totalTravelTime + Time.fixedDeltaTime;
+
+        Destroy(gameObject, totalTravelTime);
+
+        GetComponent<SpriteRenderer>().DOFade(0.0f, 1.0f);
     }
 }
