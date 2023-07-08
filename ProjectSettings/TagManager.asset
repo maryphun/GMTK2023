@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Track
+    uniqueID: 1945213271
+    locked: 0
+  - name: Notes
+    uniqueID: 1377173671
+    locked: 0
   - name: Drum-chan
     uniqueID: 4138313013
     locked: 0

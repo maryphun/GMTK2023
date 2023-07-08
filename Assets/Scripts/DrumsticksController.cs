@@ -14,7 +14,7 @@ public class DrumsticksController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool isLeftStickInAnim = false;
-    [SerializeField] private bool isRighStickInAnim = false;
+    [SerializeField] private bool isRightStickInAnim = false;
 
 
     // Start is called before the first frame update
@@ -35,9 +35,39 @@ public class DrumsticksController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
-            if (!isRighStickInAnim)
+            if (!isRightStickInAnim)
             {
                 HitDrumRight();
+            }
+        }
+    }
+
+    public void HitDrum()
+    {
+        if (isLeftStickInAnim && isRightStickInAnim)
+        {
+            // both hand is used
+            Debug.Log("Both hand is currently in use! Please change the note timing");
+        }
+        if (isLeftStickInAnim)
+        {
+            HitDrumRight();
+        }
+        else if (isRightStickInAnim)
+        {
+            HitDrumLeft();
+        }
+        else
+        {
+            // both hand are not used
+            // so random a hand
+            if (Random.Range(0, 2) == 0)
+            {
+                HitDrumRight();
+            }
+            else
+            {
+                HitDrumLeft();
             }
         }
     }
@@ -69,7 +99,7 @@ public class DrumsticksController : MonoBehaviour
     }
     IEnumerator DrumRightAnimation()
     {
-        isRighStickInAnim = true;
+        isRightStickInAnim = true;
 
         Vector2 originalPos = drumstickRight.localPosition;
         drumstickRight.DOLocalMove(new Vector3(originalPos.x - 2.0f, originalPos.y - 2f), animationTime / 2.0f);
@@ -82,6 +112,6 @@ public class DrumsticksController : MonoBehaviour
 
         yield return new WaitForSeconds(animationTime / 2.0f);
 
-        isRighStickInAnim = false;
+        isRightStickInAnim = false;
     }
 }

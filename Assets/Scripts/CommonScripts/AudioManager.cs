@@ -37,6 +37,8 @@ public class AudioManager : MonoBehaviour
 
     private bool firstMusicSourceIsPlaying;
 
+    Coroutine musicPlayer;
+
     // loaded resources
     [SerializeField]
     private AudioClip[] seClips;
@@ -86,29 +88,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void StopMusicWithFade(float transitiontime = 1f, bool isPause = false)
+    public void StopMusicWithFade(float transitiontime = 1f)
     {
         // Determine which music source is active
         AudioSource activeSource = (firstMusicSourceIsPlaying) ? musicSource : musicSource2;
 
-        StartCoroutine(UpdateMusicVolume(activeSource, transitiontime, 0.0f, isPause));
+        StartCoroutine(UpdateMusicVolume(activeSource, transitiontime, 0.0f));
         return;
-    }
-
-    public void UnpauseMusicWithFade(float transitiontime = 1f)
-    {
-        // Determine which music source is active
-        AudioSource activeSource = (firstMusicSourceIsPlaying) ? musicSource : musicSource2;
-
-        activeSource.UnPause();
-
-        StartCoroutine(UpdateMusicVolume(activeSource, transitiontime, musicVolume));
-        return;
-    }
-
-    public AudioSource GetCurrentActiveMusicSource()
-    {
-        return (firstMusicSourceIsPlaying) ? musicSource : musicSource2;
     }
 
     public void PlayMusicWithFade(string bgmname, float transitionTime)
@@ -120,7 +106,7 @@ public class AudioManager : MonoBehaviour
 
         if (clipToPlay != null)
         {
-            StartCoroutine(UpdateMusicWithFade(activeSource, clipToPlay, transitionTime));
+            musicPlayer = StartCoroutine(UpdateMusicWithFade(activeSource, clipToPlay, transitionTime));
         }
     }
 
@@ -185,7 +171,7 @@ public class AudioManager : MonoBehaviour
         originalSource.Stop();
     }
 
-    private IEnumerator UpdateMusicVolume(AudioSource source, float transitionTime, float targetVolume, bool isPause = false)
+    private IEnumerator UpdateMusicVolume(AudioSource source, float transitionTime, float targetVolume)
     {
         float t = 0.0f;
         float originalVolume = source.volume ;
@@ -195,17 +181,8 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
 
-        if (targetVolume == 0.0f)
-        {
-            if (isPause)
-            {
-                source.Pause();
-            }
-            else
-            {
-                source.Stop();
-            }
-        }
+        StopCoroutine(musicPlayer);
+        source.Stop();
     }
 
     public void PlaySFX(string clipname)

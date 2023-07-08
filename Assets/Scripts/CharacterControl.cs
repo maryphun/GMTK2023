@@ -23,9 +23,9 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private Status status;
 
     private SpriteRenderer graphic;
-    private Transform transform;
+    private Transform thisTransform;
     private Vector2 originalPos;
-
+    
 
 
     // Start is called before the first frame update
@@ -33,8 +33,8 @@ public class CharacterControl : MonoBehaviour
     {
         graphic = GetComponent<SpriteRenderer>();
         status = Status.Middle;
-        transform = GetComponent<Transform>();
-        originalPos = transform.position;
+        thisTransform = GetComponent<Transform>();
+        originalPos = base.transform.position;
     }
 
     // Update is called once per frame
@@ -47,7 +47,7 @@ public class CharacterControl : MonoBehaviour
                 graphic.sprite = leftSprite;
                 graphic.flipX = false;
                 status = Status.Left;
-                transform.DOMoveX(originalPos.x - moveRange, moveTime);
+                this.thisTransform.DOMoveX(originalPos.x - moveRange, moveTime);
             }
         }
         else if (Input.GetKey(KeyCode.RightArrow))
@@ -57,7 +57,7 @@ public class CharacterControl : MonoBehaviour
                 graphic.sprite = leftSprite;
                 graphic.flipX = true;
                 status = Status.Right;
-                transform.DOMoveX(originalPos.x + moveRange, moveTime);
+                this.thisTransform.DOMoveX(originalPos.x + moveRange, moveTime);
             }
         }
         else
@@ -67,7 +67,7 @@ public class CharacterControl : MonoBehaviour
                 graphic.sprite = idleSprite;
                 graphic.flipX = false;
                 status = Status.Middle;
-                transform.DOMoveX(originalPos.x, moveTime);
+                this.thisTransform.DOMoveX(originalPos.x, moveTime);
             }
         }
     }
