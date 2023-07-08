@@ -114,4 +114,9 @@ public class DrumsticksController : MonoBehaviour
 
         isRightStickInAnim = false;
     }
+
+    public float GetDrumAnimationTime()
+    {
+        return animationTime;
+    }
 }

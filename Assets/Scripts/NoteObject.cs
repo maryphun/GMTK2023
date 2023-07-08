@@ -11,6 +11,7 @@ public class NoteObject : MonoBehaviour
     private DrumsticksController drumsticks;
     private Vector3 startingPosition, targetPosition;
     private Transform thisTransform;
+    private bool orderedDrumHit = false;
 
     public void Initialize(float travelTime, DrumsticksController drumstick, Vector3 startingPos, Vector3 targetPos, Transform transfrm)
     {
@@ -33,10 +34,14 @@ public class NoteObject : MonoBehaviour
 
 
         travelTimeLeft = Mathf.Clamp(travelTimeLeft-Time.fixedDeltaTime, 0.0f, totalTravelTime);
+        if (!orderedDrumHit && travelTimeLeft <= drumsticks.GetDrumAnimationTime() / 2.0f)
+        {
+            orderedDrumHit = true;
+            drumsticks.HitDrum();
+        }
         if (travelTimeLeft <= 0.0f)
         {
             thisTransform.localPosition = targetPosition;
-            drumsticks.HitDrum();
             Destroy(gameObject);
         }
         else
