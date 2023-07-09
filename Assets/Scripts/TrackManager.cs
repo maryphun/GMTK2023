@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine.SceneManagement;
 
 public enum NoteType
 {
-    Blue,
+    Blue_Left,
+    Blue_Right,
     Red
 };
 
 public class TrackManager : MonoBehaviour
 {
     [SerializeField] Sprite rednote;
-    [SerializeField] Sprite bluenote;
+    [SerializeField] Sprite bluenote_left;
+    [SerializeField] Sprite bluenote_right;
 
     [Header("Debug")]
     [SerializeField] float timeElapsed = 0.0f;
@@ -22,6 +25,7 @@ public class TrackManager : MonoBehaviour
     [SerializeField] Transform startPosition;
     [SerializeField] Transform endPosition;
     [SerializeField] private DrumsticksController drumsticks;
+    [SerializeField] private SceneCtrl sceneController;
 
     [System.Serializable]
     public struct Note
@@ -61,6 +65,16 @@ public class TrackManager : MonoBehaviour
                 }
             }
         }
+
+        // end
+
+        yield return new WaitForSeconds(2.0f);
+
+        sceneController.SetAlpha(1.0f, 4.0f);
+
+        yield return new WaitForSeconds(5.0f);
+
+        SceneManager.LoadScene(2);
     }
 
     private void SpawnNote(Note detail)
@@ -71,7 +85,20 @@ public class TrackManager : MonoBehaviour
         //Add Components
         var sprite = objToSpawn.AddComponent<SpriteRenderer>();
 
-        Sprite targetSprite = detail.noteType == NoteType.Blue ? bluenote : rednote;
+        Sprite targetSprite = rednote;
+        if (detail.noteType == NoteType.Blue_Left)
+        {
+            targetSprite = bluenote_left;
+        }
+        else if (detail.noteType == NoteType.Blue_Right)
+        {
+            targetSprite = bluenote_right;
+            sprite.flipX = true;
+        }
+        else if (detail.noteType == NoteType.Red)
+        {
+            targetSprite = rednote;
+        }
         sprite.sprite = targetSprite;
         sprite.sortingLayerName = "Notes";
         sprite.sortingOrder = 0;

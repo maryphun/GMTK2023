@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class DrumsticksController : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class DrumsticksController : MonoBehaviour
     [SerializeField] private bool isRightStickInAnim = false;
     [SerializeField] private int combo = 0;
     [SerializeField] private int missCombo = 0;
+    [SerializeField] private int score = 0;
+    [SerializeField] private int hit = 0;
+    [SerializeField] private int miss = 0;
     [SerializeField] private bool isEnabled = false;
 
     private Vector3 drumstickOriginPosLeft, drumstickOriginPosRight;
@@ -38,7 +42,11 @@ public class DrumsticksController : MonoBehaviour
 
     public void InitializeDrumStick()
     {
-        combo = 0;
+        score = 0;
+        score = 0;
+        missCombo = 0;
+        hit = 0;
+        miss = 0;
         drumstickOriginPosLeft = new Vector3();
         drumstickOriginPosRight = new Vector3();
         isEnabled = true;
@@ -176,13 +184,15 @@ public class DrumsticksController : MonoBehaviour
 
     private bool CheckIsDrumHit(NoteType noteType)
     {
-        return (noteType == NoteType.Blue && (drumCtrl.GetDrumStatus() == Status.Left || drumCtrl.GetDrumStatus() == Status.Right))
+        return (noteType == NoteType.Blue_Left && drumCtrl.GetDrumStatus() == Status.Left)
+             || (noteType == NoteType.Blue_Right && drumCtrl.GetDrumStatus() == Status.Right)
              || (noteType == NoteType.Red && drumCtrl.GetDrumStatus() == Status.Middle);
     }
 
     private void AddCombo()
     {
         combo++;
+        hit++;
         comboCntText.text = combo.ToString();
 
         missCombo = 0;
@@ -191,10 +201,16 @@ public class DrumsticksController : MonoBehaviour
     private void ResetCombo()
     {
         combo = 0;
+        miss++;
         comboCntText.text = string.Empty;
 
         missCombo++;
         missComboCntText.text = "Combo Streak: " + missCombo.ToString();
         missComboCntText.gameObject.SetActive(true);
+    }
+
+    public void SubmitResult()
+    {
+        Score.Instance.SetResult(combo, hit, miss, score);
     }
 }

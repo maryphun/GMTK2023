@@ -24,6 +24,8 @@ public class SceneCtrl : MonoBehaviour
     [SerializeField] private Transform drumsticks;
     [SerializeField] private Transform trackboard;
     [SerializeField] private TMP_Text controlDescription;
+    [SerializeField] private SpriteRenderer tutorial;
+    [SerializeField] private TMP_Text tutorialDescrition;
 
     private void Start()
     {
@@ -98,6 +100,24 @@ public class SceneCtrl : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
+        tutorial.DOFade(1.0f, 1.5f);
+        tutorialDescrition.DOFade(1.0f, 1.5f);
+
+        while (!Input.GetKey(KeyCode.Z))
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        
+        tutorial.DOFade(0.0f, 1.5f);
+        tutorialDescrition.DOFade(0.0f, 1.5f);
+
+        yield return new WaitForSeconds(2.0f);
+
         StartCoroutine(GamePlay());
+    }
+
+    public void SetAlpha(float endValue, float time)
+    {
+        alpha.DOFade(endValue, time);
     }
 }
