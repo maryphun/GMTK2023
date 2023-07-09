@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -564.6943, y: 280.47205}
+  m_AnchoredPosition: {x: -550.6, y: 280.47205}
   m_SizeDelta: {x: 76.6115, y: 78.445}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2950085
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -378,6 +378,7 @@ MonoBehaviour:
   score: 0
   hit: 0
   miss: 0
+  maxCombo: 0
   isEnabled: 0
 --- !u!1 &86332329
 GameObject:
@@ -2314,10 +2315,11 @@ MonoBehaviour:
   bluenote_left: {fileID: 21300000, guid: 3b5c6da45da1f9c418a7c5275066fc94, type: 3}
   bluenote_right: {fileID: 21300000, guid: 3b5c6da45da1f9c418a7c5275066fc94, type: 3}
   timeElapsed: 0
+  totalNoteCount: 0
   startPosition: {fileID: 858866333}
   endPosition: {fileID: 882365756}
   drumsticks: {fileID: 85650409}
-  sceneController: {fileID: 0}
+  sceneController: {fileID: 59856535}
   noteList:
   - noteType: 0
     travelTime: 5
@@ -2386,31 +2388,31 @@ MonoBehaviour:
     travelTime: 1
     beatTiming: 31.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 32.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 33.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 34.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 35.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 36.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 37.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 38.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 39.5
   - noteType: 2
-    travelTime: 0.5
+    travelTime: 0.75
     beatTiming: 40.5
   - noteType: 0
     travelTime: 3

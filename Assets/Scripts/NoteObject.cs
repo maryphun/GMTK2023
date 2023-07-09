@@ -92,4 +92,9 @@ public class NoteObject : MonoBehaviour
 
         GetComponent<SpriteRenderer>().DOFade(0.0f, 1.0f);
     }
+
+    public float GetTotalTravelTime()
+    {
+        return totalTravelTime;
+    }
 }

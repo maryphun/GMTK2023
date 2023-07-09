@@ -20,6 +20,7 @@ public class TrackManager : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] float timeElapsed = 0.0f;
+    [SerializeField] int totalNoteCount = 0;
 
     [Header("References")]
     [SerializeField] Transform startPosition;
@@ -39,6 +40,7 @@ public class TrackManager : MonoBehaviour
 
     public void StartTrack()
     {
+        totalNoteCount = noteList.Count;
         StartCoroutine(Track());
     }
 
@@ -71,8 +73,12 @@ public class TrackManager : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         sceneController.SetAlpha(1.0f, 4.0f);
+        AudioManager.Instance.StopMusicWithFade(3.0f);
 
         yield return new WaitForSeconds(5.0f);
+
+        AudioManager.Instance.DestroyCurrentMusicSource();
+        drumsticks.SubmitResult();
 
         SceneManager.LoadScene(2);
     }
@@ -113,5 +119,10 @@ public class TrackManager : MonoBehaviour
     public Transform GetEndPosition()
     {
         return endPosition;
+    }
+
+    public int GetTotalNoteCount()
+    {
+        return totalNoteCount;
     }
 }

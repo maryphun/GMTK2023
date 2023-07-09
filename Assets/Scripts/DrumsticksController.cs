@@ -29,6 +29,7 @@ public class DrumsticksController : MonoBehaviour
     [SerializeField] private int score = 0;
     [SerializeField] private int hit = 0;
     [SerializeField] private int miss = 0;
+    [SerializeField] private int maxCombo = 0;
     [SerializeField] private bool isEnabled = false;
 
     private Vector3 drumstickOriginPosLeft, drumstickOriginPosRight;
@@ -45,6 +46,7 @@ public class DrumsticksController : MonoBehaviour
         score = 0;
         score = 0;
         missCombo = 0;
+        maxCombo = 0;
         hit = 0;
         miss = 0;
         drumstickOriginPosLeft = new Vector3();
@@ -109,12 +111,13 @@ public class DrumsticksController : MonoBehaviour
         //AudioManager.Instance.PlaySFX("don", 0.1f);
 
         yield return new WaitForSeconds(hitAnimTime);
-
+        
         if (CheckIsDrumHit(note.GetNoteType()))
         {
             AddCombo();
             note.Success();
             drumCtrl.GetHit();
+            AddScore(((int)(75.0f / (float)note.GetTotalTravelTime())));
 
             var obj = Instantiate(hitPrefab, trackMng.GetEndPosition());
             obj.transform.localPosition = new Vector3();
@@ -153,6 +156,7 @@ public class DrumsticksController : MonoBehaviour
             AddCombo();
             note.Success();
             drumCtrl.GetHit();
+            AddScore(((int)(75.0f / (float)note.GetTotalTravelTime())));
 
             var obj = Instantiate(hitPrefab, trackMng.GetEndPosition());
             obj.transform.localPosition = new Vector3();
@@ -192,6 +196,7 @@ public class DrumsticksController : MonoBehaviour
     private void AddCombo()
     {
         combo++;
+        if (combo > maxCombo) maxCombo = combo;
         hit++;
         comboCntText.text = combo.ToString();
 
@@ -205,12 +210,20 @@ public class DrumsticksController : MonoBehaviour
         comboCntText.text = string.Empty;
 
         missCombo++;
-        missComboCntText.text = "Combo Streak: " + missCombo.ToString();
+        missComboCntText.text = "Miss Streak: " + missCombo.ToString();
         missComboCntText.gameObject.SetActive(true);
     }
 
     public void SubmitResult()
     {
-        Score.Instance.SetResult(combo, hit, miss, score);
+        Score.Instance.SetMaxNoteCnt(trackMng.GetTotalNoteCount());
+        Score.Instance.SetResult(maxCombo, hit, miss, score);
+
+        Debug.Log("Submit result");
+    }
+
+    public void AddScore(int value)
+    {
+        score += value;
     }
 }

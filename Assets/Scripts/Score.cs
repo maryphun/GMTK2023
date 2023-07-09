@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Score : SingletonMonoBehaviour<Score>
 {
-    int _combo, _hit, _miss,_score;
+    [SerializeField] int _combo, _hit, _miss,_score;
+    [SerializeField] int _maxNoteCnt;
+    [SerializeField] bool _isScoreSubmitted = false;
     public void SetResult(int combo, int hit, int miss, int score)
     {
         _combo = combo;
         _hit = hit;
         _miss = miss;
         _score = score;
+        _isScoreSubmitted = true;
+
+        DontDestroyOnLoad(gameObject);
     }
 
     public int GetCombo()
@@ -31,5 +36,20 @@ public class Score : SingletonMonoBehaviour<Score>
     public int GetScore()
     {
         return _score;
+    }
+
+    public void SetMaxNoteCnt(int value)
+    {
+        _maxNoteCnt = value;
+    }
+
+    public int GetMaxNoteCnt()
+    {
+        return _maxNoteCnt;
+    }
+
+    public bool IsScoreSubmitted()
+    {
+        return _isScoreSubmitted;
     }
 }

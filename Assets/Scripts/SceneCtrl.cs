@@ -34,7 +34,18 @@ public class SceneCtrl : MonoBehaviour
 
         alpha.DOFade(0.0f, 5.0f);
 
-        StartCoroutine(TutorialSequence());
+        if (!Score.Instance.IsScoreSubmitted())
+        {
+            StartCoroutine(TutorialSequence());
+        }
+        else
+        {
+            // skip tutorial
+            drumsticks.DOMoveY(0.0f, 2.0f);
+            trackboard.DOMoveY(0.0f, 2.0f);
+
+            StartCoroutine(GamePlay());
+        }
     }
 
     IEnumerator GamePlay()
@@ -102,6 +113,7 @@ public class SceneCtrl : MonoBehaviour
 
         tutorial.DOFade(1.0f, 1.5f);
         tutorialDescrition.DOFade(1.0f, 1.5f);
+        AudioManager.Instance.PlaySFX("transition");
 
         while (!Input.GetKey(KeyCode.Z))
         {
@@ -110,6 +122,7 @@ public class SceneCtrl : MonoBehaviour
         
         tutorial.DOFade(0.0f, 1.5f);
         tutorialDescrition.DOFade(0.0f, 1.5f);
+        AudioManager.Instance.PlaySFX("Cling");
 
         yield return new WaitForSeconds(2.0f);
 
