@@ -32,15 +32,16 @@ public class DrumsticksController : MonoBehaviour
     public void InitializeDrumStick()
     {
         combo = 0;
-        drumstickOriginPosLeft = drumstickLeft.localPosition;
-        drumstickOriginPosRight = drumstickRight.localPosition;
+        drumstickOriginPosLeft = new Vector3();
+        drumstickOriginPosRight = new Vector3();
         isEnabled = true;
     }
 
     public void MoveDrumSticks(Vector3 offset, float time)
     {
         if (!isEnabled) return;
-
+        drumstickLeft.DOKill(false);
+        drumstickRight.DOKill(false);
         drumstickLeft.DOLocalMove(drumstickOriginPosLeft + offset, time);
         drumstickRight.DOLocalMove(drumstickOriginPosRight + offset, time);
     }
@@ -98,6 +99,7 @@ public class DrumsticksController : MonoBehaviour
         {
             AddCombo();
             note.Success();
+            drumCtrl.GetHit();
         }
         else
         {
@@ -123,6 +125,7 @@ public class DrumsticksController : MonoBehaviour
         {
             AddCombo();
             note.Success();
+            drumCtrl.GetHit();
         }
         else
         {

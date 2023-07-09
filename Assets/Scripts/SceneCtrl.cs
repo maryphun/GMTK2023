@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class SceneCtrl : MonoBehaviour
 {
@@ -16,12 +17,13 @@ public class SceneCtrl : MonoBehaviour
     [Header("Screen Alpha")]
     [SerializeField] private Image alpha;
 
-    [Header("ArrowKeys")]
+    [Header("Tutorials")]
     [SerializeField] private Transform leftArrowKey;
     [SerializeField] private Transform rightArrowKey;
     [SerializeField] private bool leftArrowKeyPressed, rightArrowKeyPressed;
     [SerializeField] private Transform drumsticks;
     [SerializeField] private Transform trackboard;
+    [SerializeField] private TMP_Text controlDescription;
 
     private void Start()
     {
@@ -65,6 +67,7 @@ public class SceneCtrl : MonoBehaviour
 
         leftArrowKey.GetComponent<SpriteRenderer>().DOFade(1.0f, 1.0f);
         rightArrowKey.GetComponent<SpriteRenderer>().DOFade(1.0f, 1.0f);
+        controlDescription.DOFade(1.0f, 1.0f);
 
         // init
         leftArrowKeyPressed = false;
@@ -91,6 +94,7 @@ public class SceneCtrl : MonoBehaviour
         // finish tutorials
         drumsticks.DOMoveY(0.0f, 2.0f);
         trackboard.DOMoveY(0.0f, 2.0f);
+        controlDescription.DOFade(0.0f, 1.0f);
 
         yield return new WaitForSeconds(2.0f);
 
