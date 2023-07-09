@@ -27,7 +27,7 @@ public class SceneCtrl : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.SetMusicVolume(bgmSound);
+        //AudioManager.Instance.SetMusicVolume(bgmSound);
         AudioManager.Instance.SetSEMasterVolume(seSound);
 
         alpha.DOFade(0.0f, 5.0f);

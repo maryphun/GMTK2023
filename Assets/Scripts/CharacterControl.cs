@@ -94,12 +94,12 @@ public class CharacterControl : MonoBehaviour
         if (status == Status.Middle)
         {
             animator.Play("PlayerGetHitMid");
-            AudioManager.Instance.PlaySFX("Don", 0.1f);
+            AudioManager.Instance.PlaySFX("Don", 0.5f);
         }
         else
         {
             animator.Play("PlayerGetHitSide");
-            AudioManager.Instance.PlaySFX("Katsu", 0.1f);
+            AudioManager.Instance.PlaySFX("Katsu", 0.5f);
         }
     }
 }

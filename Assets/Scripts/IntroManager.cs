@@ -54,9 +54,9 @@ public class IntroManager : MonoBehaviour
 
         alpha.DOFade(1.0f, 5.0f);
 
-        AudioManager.Instance.StopMusicWithFade(4.0f);
+        AudioManager.Instance.StopMusicWithFade(2.0f);
         yield return new WaitForSeconds(5.0f);
-        AudioManager.Instance.PauseMusic();
+        AudioManager.Instance.DestroyCurrentMusicSource();
         SceneManager.LoadScene(1);
     }
 

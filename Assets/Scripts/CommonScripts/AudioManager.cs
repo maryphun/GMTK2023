@@ -109,6 +109,14 @@ public class AudioManager : MonoBehaviour
             musicPlayer = StartCoroutine(UpdateMusicWithFade(activeSource, clipToPlay, transitionTime));
         }
     }
+    public void DestroyCurrentMusicSource()
+    {
+        // Determine which music source is active
+        AudioSource activeSource = (firstMusicSourceIsPlaying) ? musicSource : musicSource2;
+
+        activeSource.Stop();
+        activeSource.clip = null;
+    }
 
     public void PlayMusicWithCrossFade(string bgmname, float transitionTime = 1.0f)
     {
