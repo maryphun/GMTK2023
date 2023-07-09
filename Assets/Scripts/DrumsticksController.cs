@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class DrumsticksController : MonoBehaviour
 {
@@ -16,11 +17,14 @@ public class DrumsticksController : MonoBehaviour
     [SerializeField] private TrackManager trackMng;
     [SerializeField] private GameObject hitPrefab;
     [SerializeField] private GameObject missPrefab;
+    [SerializeField] private TMP_Text comboCntText;
+    [SerializeField] private TMP_Text missComboCntText;
 
     [Header("Debug")]
     [SerializeField] private bool isLeftStickInAnim = false;
     [SerializeField] private bool isRightStickInAnim = false;
     [SerializeField] private int combo = 0;
+    [SerializeField] private int missCombo = 0;
     [SerializeField] private bool isEnabled = false;
 
     private Vector3 drumstickOriginPosLeft, drumstickOriginPosRight;
@@ -118,6 +122,8 @@ public class DrumsticksController : MonoBehaviour
             obj.transform.localPosition = new Vector3();
 
             trackMng.GetEndPosition().GetComponent<Animator>().Play("Miss");
+
+            AudioManager.Instance.PlaySFX("MissNote2");
         }
 
         yield return new WaitForSeconds(animationTime - hitAnimTime);
@@ -154,6 +160,8 @@ public class DrumsticksController : MonoBehaviour
             obj.transform.localPosition = new Vector3();
 
             trackMng.GetEndPosition().GetComponent<Animator>().Play("Miss");
+
+            AudioManager.Instance.PlaySFX("MissNote2");
         }
 
         yield return new WaitForSeconds(animationTime - hitAnimTime);
@@ -175,9 +183,18 @@ public class DrumsticksController : MonoBehaviour
     private void AddCombo()
     {
         combo++;
+        comboCntText.text = combo.ToString();
+
+        missCombo = 0;
+        missComboCntText.gameObject.SetActive(false);
     }
     private void ResetCombo()
     {
         combo = 0;
+        comboCntText.text = string.Empty;
+
+        missCombo++;
+        missComboCntText.text = "Combo Streak: " + missCombo.ToString();
+        missComboCntText.gameObject.SetActive(true);
     }
 }
