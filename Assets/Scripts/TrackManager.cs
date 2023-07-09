@@ -82,4 +82,9 @@ public class TrackManager : MonoBehaviour
         var noteObjScript = objToSpawn.AddComponent<NoteObject>();
         noteObjScript.Initialize(detail.travelTime, drumsticks, startPosition.localPosition, endPosition.localPosition, objTransform, detail.noteType);
     }
+
+    public Transform GetEndPosition()
+    {
+        return endPosition;
+    }
 }

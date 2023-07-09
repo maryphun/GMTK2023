@@ -13,6 +13,9 @@ public class DrumsticksController : MonoBehaviour
     [SerializeField] private Transform drumstickLeft;
     [SerializeField] private Transform drumstickRight;
     [SerializeField] private CharacterControl drumCtrl;
+    [SerializeField] private TrackManager trackMng;
+    [SerializeField] private GameObject hitPrefab;
+    [SerializeField] private GameObject missPrefab;
 
     [Header("Debug")]
     [SerializeField] private bool isLeftStickInAnim = false;
@@ -91,7 +94,7 @@ public class DrumsticksController : MonoBehaviour
 
         drumstickLeft.GetComponent<Animator>().SetTrigger("Hit");
 
-        AudioManager.Instance.PlaySFX("don", 0.1f);
+        //AudioManager.Instance.PlaySFX("don", 0.1f);
 
         yield return new WaitForSeconds(hitAnimTime);
 
@@ -100,11 +103,21 @@ public class DrumsticksController : MonoBehaviour
             AddCombo();
             note.Success();
             drumCtrl.GetHit();
+
+            var obj = Instantiate(hitPrefab, trackMng.GetEndPosition());
+            obj.transform.localPosition = new Vector3();
+
+            trackMng.GetEndPosition().GetComponent<Animator>().Play("Hit");
         }
         else
         {
             ResetCombo();
             note.Miss();
+
+            var obj = Instantiate(missPrefab, trackMng.GetEndPosition());
+            obj.transform.localPosition = new Vector3();
+
+            trackMng.GetEndPosition().GetComponent<Animator>().Play("Miss");
         }
 
         yield return new WaitForSeconds(animationTime - hitAnimTime);
@@ -117,7 +130,7 @@ public class DrumsticksController : MonoBehaviour
 
         drumstickRight.GetComponent<Animator>().SetTrigger("Hit");
 
-        AudioManager.Instance.PlaySFX("don", 0.1f);
+        //AudioManager.Instance.PlaySFX("don", 0.1f);
 
         yield return new WaitForSeconds(hitAnimTime);
 
@@ -126,11 +139,21 @@ public class DrumsticksController : MonoBehaviour
             AddCombo();
             note.Success();
             drumCtrl.GetHit();
+
+            var obj = Instantiate(hitPrefab, trackMng.GetEndPosition());
+            obj.transform.localPosition = new Vector3();
+
+            trackMng.GetEndPosition().GetComponent<Animator>().Play("Hit");
         }
         else
         {
             ResetCombo();
             note.Miss();
+
+            var obj = Instantiate(missPrefab, trackMng.GetEndPosition());
+            obj.transform.localPosition = new Vector3();
+
+            trackMng.GetEndPosition().GetComponent<Animator>().Play("Miss");
         }
 
         yield return new WaitForSeconds(animationTime - hitAnimTime);
