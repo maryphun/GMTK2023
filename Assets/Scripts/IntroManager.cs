@@ -16,6 +16,8 @@ public class IntroManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(Intro());
+
+        AudioManager.Instance.PlayMusic("Lilac");
     }
 
     IEnumerator Intro()
@@ -52,8 +54,9 @@ public class IntroManager : MonoBehaviour
 
         alpha.DOFade(1.0f, 5.0f);
 
+        AudioManager.Instance.StopMusicWithFade(4.0f);
         yield return new WaitForSeconds(5.0f);
-
+        AudioManager.Instance.PauseMusic();
         SceneManager.LoadScene(1);
     }
 
@@ -63,6 +66,8 @@ public class IntroManager : MonoBehaviour
         for (int i = 0; i <= txt.Length; i++)
         {
             text.SetText(txt.Substring(0, i));
+
+            AudioManager.Instance.PlaySFX("messageSingle", 0.5f);
 
             yield return new WaitForSeconds(textInterval);
         }
