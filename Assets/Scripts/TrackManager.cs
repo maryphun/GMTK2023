@@ -21,6 +21,7 @@ public class TrackManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] float timeElapsed = 0.0f;
     [SerializeField] int totalNoteCount = 0;
+    [SerializeField] int spawnedNote = 0;
 
     [Header("References")]
     [SerializeField] Transform startPosition;
@@ -41,6 +42,7 @@ public class TrackManager : MonoBehaviour
     public void StartTrack()
     {
         totalNoteCount = noteList.Count;
+        spawnedNote = 0;
         StartCoroutine(Track());
     }
 
@@ -61,7 +63,7 @@ public class TrackManager : MonoBehaviour
                 }
                 else if (spawnTiming <= timeElapsed)
                 {
-                    SpawnNote(note);
+                    SpawnNote(note, spawnedNote);
                     noteList.RemoveAt(i);
                     i--;
                 }
@@ -70,7 +72,7 @@ public class TrackManager : MonoBehaviour
 
         // end
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(7.0f);
 
         sceneController.SetAlpha(1.0f, 4.0f);
         AudioManager.Instance.StopMusicWithFade(3.0f);
@@ -83,7 +85,7 @@ public class TrackManager : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-    private void SpawnNote(Note detail)
+    private void SpawnNote(Note detail, int noteIndex)
     {
         GameObject objToSpawn;
         //spawn object
@@ -107,7 +109,7 @@ public class TrackManager : MonoBehaviour
         }
         sprite.sprite = targetSprite;
         sprite.sortingLayerName = "Notes";
-        sprite.sortingOrder = 0;
+        sprite.sortingOrder = noteIndex;
 
         var objTransform = objToSpawn.GetComponent<Transform>();
         objTransform.SetParent(this.transform);

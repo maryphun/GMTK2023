@@ -82,13 +82,27 @@ public class DrumsticksController : MonoBehaviour
         {
             // both hand are not used
             // so random a hand
-            if (Random.Range(0, 2) == 0)
+            if (note.GetNoteType() == NoteType.Red)
             {
-                HitDrumRight(note);
+                if (Random.Range(0, 2) == 0)
+                {
+                    HitDrumRight(note);
+                }
+                else
+                {
+                    HitDrumLeft(note);
+                }
             }
             else
             {
-                HitDrumLeft(note);
+                if (note.GetNoteType() == NoteType.Blue_Right)
+                {
+                    HitDrumRight(note);
+                }
+                else if (note.GetNoteType() == NoteType.Blue_Left)
+                {
+                    HitDrumLeft(note);
+                }
             }
         }
     }

@@ -459,12 +459,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -693,7 +693,7 @@ SpriteRenderer:
   m_SortingLayerID: 1882656307
   m_SortingLayer: 5
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 555ddde6ed5cbe6459be1c7b18cce803, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c67f56e151af59c4fa6edb836129150d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
@@ -1556,12 +1556,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1972,7 +1972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -14.900024, y: -315}
+  m_AnchoredPosition: {x: -482.4, y: 144.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1796567340
@@ -2022,8 +2022,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2142,12 +2142,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2316,6 +2316,7 @@ MonoBehaviour:
   bluenote_right: {fileID: 21300000, guid: 3b5c6da45da1f9c418a7c5275066fc94, type: 3}
   timeElapsed: 0
   totalNoteCount: 0
+  spawnedNote: 0
   startPosition: {fileID: 858866333}
   endPosition: {fileID: 882365756}
   drumsticks: {fileID: 85650409}
@@ -2426,3 +2427,81 @@ MonoBehaviour:
   - noteType: 0
     travelTime: 3
     beatTiming: 39
+  - noteType: 0
+    travelTime: 1.5
+    beatTiming: 40
+  - noteType: 1
+    travelTime: 1.5
+    beatTiming: 40.4
+  - noteType: 0
+    travelTime: 1.5
+    beatTiming: 40.8
+  - noteType: 2
+    travelTime: 1.5
+    beatTiming: 41.5
+  - noteType: 0
+    travelTime: 2
+    beatTiming: 43
+  - noteType: 1
+    travelTime: 2
+    beatTiming: 43.4
+  - noteType: 0
+    travelTime: 2
+    beatTiming: 43.8
+  - noteType: 2
+    travelTime: 2
+    beatTiming: 44.5
+  - noteType: 2
+    travelTime: 2
+    beatTiming: 45
+  - noteType: 2
+    travelTime: 3
+    beatTiming: 46
+  - noteType: 2
+    travelTime: 3
+    beatTiming: 47
+  - noteType: 2
+    travelTime: 3
+    beatTiming: 48
+  - noteType: 1
+    travelTime: 1
+    beatTiming: 49
+  - noteType: 2
+    travelTime: 1
+    beatTiming: 49.3
+  - noteType: 1
+    travelTime: 1
+    beatTiming: 49.6
+  - noteType: 0
+    travelTime: 1
+    beatTiming: 49.9
+  - noteType: 2
+    travelTime: 0.5
+    beatTiming: 52.5
+  - noteType: 2
+    travelTime: 0.5
+    beatTiming: 52.75
+  - noteType: 2
+    travelTime: 0.5
+    beatTiming: 53.5
+  - noteType: 2
+    travelTime: 0.5
+    beatTiming: 53.25
+  - noteType: 0
+    travelTime: 0.5
+    beatTiming: 54
+  - noteType: 1
+    travelTime: 1
+    beatTiming: 55
+  - noteType: 0
+    travelTime: 5
+    beatTiming: 55.5
+  - noteType: 2
+    travelTime: 5
+    beatTiming: 57.5
+  - noteType: 1
+    travelTime: 5
+    beatTiming: 59.5
+  - noteType: 2
+    travelTime: 5
+    beatTiming: 60

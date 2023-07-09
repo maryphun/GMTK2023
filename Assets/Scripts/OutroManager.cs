@@ -109,7 +109,7 @@ public class OutroManager : MonoBehaviour
 
     Sprite GetDrumSprite(float fillAmt)
     {
-        if (fillAmt < 0.25f)
+        if (fillAmt < 0.1f)
         {
             return veryhappy;
         }
@@ -117,7 +117,7 @@ public class OutroManager : MonoBehaviour
         {
             return happy;
         }
-        if (fillAmt < 0.75f)
+        if (fillAmt < 0.9f)
         {
             return hurt;
         }
@@ -127,7 +127,7 @@ public class OutroManager : MonoBehaviour
 
     string GetText(float fillAmt)
     {
-        if (fillAmt < 0.25f)
+        if (fillAmt < 0.1f)
         {
             return "Drum-chan is very happy!!!";
         }
@@ -135,7 +135,7 @@ public class OutroManager : MonoBehaviour
         {
             return "Mediocore score but drum-chan is secretly happy because he got to avoid most of the hit this time.";
         }
-        if (fillAmt < 0.75f)
+        if (fillAmt < 0.9f)
         {
             return "Drum-chan is hurt, but he is still trying to cheer for your relatively high score.";
         }
